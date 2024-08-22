@@ -1,3 +1,5 @@
+import warnings
+
 def first_derivative(f, x, eps = 0.01):
     """ Find first derivative of given function evaluated at a given point
     with a fixed distance for the numerical approximation to the derivative.
@@ -10,7 +12,7 @@ def first_derivative(f, x, eps = 0.01):
     Returns:
         f'(x): the derivative of f evaluated at x
     """
-    f_1 = (f(x+eps) - f (x))/eps
+    f_1 = (f(x+eps) - f(x))/eps
     return f_1
 
 def second_derivative(f,x, eps = 0.01):
@@ -27,7 +29,7 @@ def second_derivative(f,x, eps = 0.01):
     f_2 = (first_derivative(f,x+eps,eps) - first_derivative(f,x,eps))/eps
     return f_2
 
-def optimize(f,x_0, delta = 0.0001, eps = 0.0001, verbose = False):
+def optimize(f,x_0, delta = 1e-6, eps = 1e-6, verbose = False):
     """
     Runs 1-dimensional newton's method to find local minima of f starting
     from input x_0.
@@ -49,8 +51,18 @@ def optimize(f,x_0, delta = 0.0001, eps = 0.0001, verbose = False):
     """
     x_t = x_0
     counter = 0
+    if not callable(f):
+        raise TypeError('Function provided is not a function')
+    if not isinstance(x_0, (float, int)):
+        raise TypeError('Starting point must be numeric')
     while counter < 1000:
         counter+=1
+        import pdb
+        pdb.set_trace()
+        if abs(second_derivative(f,x_t,eps)) < 1e-5:
+            warnings.warn("Second Derivative is close to zero")
+        if second_derivative(f,x_t,eps) == 0:
+            raise ZeroDivisionError('Second Derivative is identically zero')
         x_tplus1 = x_t - first_derivative(f,x_t, eps)/second_derivative(f,x_t, eps)
         if counter%1 == 0 and verbose:
             print("Counter : ", counter)
