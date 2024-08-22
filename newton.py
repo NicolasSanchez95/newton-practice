@@ -25,5 +25,6 @@ def optimize(f,x_0, delta = 0.0001, eps = 0.0001, verbose = False):
     return x_t, first_derivative(f,x_t, eps), second_derivative(f,x_t, eps), counter
 
 
-f = lambda x : 2 + (x-1)**2+(x-1)**4
+def f(x):
+    return 2 + (x - 1) ** 2 + (x - 1) ** 4
 optimize(f,100, verbose = True)
