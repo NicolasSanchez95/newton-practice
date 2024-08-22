@@ -19,7 +19,7 @@ def optimize(f,x_0, delta = 0.0001, eps = 0.0001, verbose = False):
             print("x_t : ", x_t, "x_t+1", x_tplus1)
             print("f(x_t): ", f(x_t), "f(x+1): ", f(x_tplus1)) 
             print("Diff: ", f(x_tplus1) - f(x_t)) 
-        if abs(f(x_tplus1) - f(x_t)) < delta :
+        if abs(x_tplus1 - x_t) < delta :
             break
         x_t = x_tplus1
     return x_t, first_derivative(f,x_t, eps), second_derivative(f,x_t, eps), counter
