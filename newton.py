@@ -76,3 +76,29 @@ def optimize(f,x_0, delta = 1e-6, eps = 1e-6, verbose = False):
         raise Exception("Newton's method did not converge within \
             the set max numberof iteration")
     return x_t, f(x_t), first_derivative(f,x_t, eps), second_derivative(f,x_t, eps), counter
+
+def first_derivative_multi(f, x, eps = 0.01):
+    return nd.Gradient(f)(x)
+
+def second_derivative_multi(f,x, eps = 0.01):
+    return nd.Hessian(f)(x)
+    
+def optimize_multi(f,x_0, delta = 0.0001, eps = 0.0001, verbose = False):
+    x_t = x_0
+    counter = 0
+    while counter < 1000:
+        counter+=1
+        x_tplus1 = x_t - np.linalg.solve(second_derivative_multi(f,x_t, eps),first_derivative_multi(f, x_t, eps))
+        if counter%1 == 0 and verbose:
+            print("Counter : ", counter)
+            print("x_t : ", x_t, "x_t+1", x_tplus1)
+            print("f(x_t): ", f(x_t), "f(x+1): ", f(x_tplus1))
+            print("Diff: ", f(x_tplus1) - f(x_t))
+        if np.linalg.norm(x_tplus1- x_t) < delta :
+            break
+        x_t = x_tplus1
+    if counter == 1000:
+        raise Exception("Newton's method did not converge within \
+            the set max numberof iteration")
+    return x_t, f(x_t), first_derivative_multi(f,x_t, eps), second_derivative_multi(f,x_t, eps), counter
+
