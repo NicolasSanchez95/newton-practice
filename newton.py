@@ -1,4 +1,5 @@
 import warnings
+import numpy as np # comment by tk-violin
 
 def first_derivative(f, x, eps = 0.01):
     """ Find first derivative of given function evaluated at a given point
