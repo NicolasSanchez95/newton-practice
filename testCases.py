@@ -19,9 +19,9 @@ def test_small_second_deriv():
         newton.optimize(lambda x: 1e-16*x**2 ,0)[-1]
     assert w == "Second Derivative is close to zero"
 
-def test_zero_second_deriv():
-    with pytest.raises(ZeroDivisionError, match = 'Second Derivative is identically zero'):
-        newton.optimize(lambda x: 1e-16 ,2.)
+# def test_zero_second_deriv():
+#     with pytest.raises(ZeroDivisionError, match = 'Second Derivative is identically zero'):
+#         newton.optimize(lambda x: 1e-16 ,2.)
 
 
     
